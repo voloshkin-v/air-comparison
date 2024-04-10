@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
     providedIn: 'root',
 })
 export class DataService {
-    // Array
+    // TODO: add type
     private comparisonData = new Subject<any>();
     comparisonData$ = this.comparisonData.asObservable();
 

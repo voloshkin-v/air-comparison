@@ -56,12 +56,22 @@
         </div>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4 flex flex-col gap-4">
         <p-button
-            [disabled]="!form.valid"
+            [disabled]="!form.valid || !form.dirty"
             type="submit"
             class="p-fluid"
-            label="Submit"
-        ></p-button>
+            label="Compare"
+        >
+        </p-button>
+
+        <p-button
+            *ngIf="selectedLocations?.value?.length"
+            label="Reset"
+            severity="secondary"
+            class="p-fluid"
+            (onClick)="onReset()"
+        >
+        </p-button>
     </div>
 </form>

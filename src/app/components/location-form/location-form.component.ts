@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {
@@ -20,12 +20,6 @@ interface AutocompleteEvent {
     query: string;
 }
 
-interface Location {
-    lat: number;
-    lon: number;
-    name: string;
-}
-
 @Component({
     selector: 'location-form',
     standalone: true,
@@ -40,7 +34,9 @@ interface Location {
     templateUrl: './location-form.component.html',
     styleUrl: './location-form.component.scss',
 })
-export class LocationFormComponent {
+export class LocationFormComponent implements OnInit {
+    LOCAL_STORAGE_KEY = 'locations-data';
+
     weatherService = inject(WeatherService);
     dataService = inject(DataService);
 
@@ -59,6 +55,25 @@ export class LocationFormComponent {
         return this.form.get('selectedLocations');
     }
 
+    ngOnInit() {
+        this.selectedLocations?.valueChanges.subscribe((data) => {
+            if (!data?.length) {
+                localStorage.removeItem(this.LOCAL_STORAGE_KEY);
+            }
+        });
+
+        const data = localStorage.getItem(this.LOCAL_STORAGE_KEY);
+        if (!data) return;
+
+        this.form.patchValue({
+            selectedLocations: JSON.parse(data),
+        });
+
+        if (this.form.valid) {
+            this.fetchPolutionData();
+        }
+    }
+
     onSearch(event: AutocompleteEvent) {
         this.weatherService.getGeocoding(event.query).subscribe((data) => {
             this.locations = data;
@@ -66,12 +81,28 @@ export class LocationFormComponent {
     }
 
     onSubmit() {
-        const queries = this.form.value.selectedLocations!.map((location) =>
-            this.weatherService.getAirPolutionData(location.lat, location.lon)
+        this.fetchPolutionData();
+    }
+
+    onReset() {
+        this.form.reset();
+        this.dataService.setData([]);
+    }
+
+    fetchPolutionData() {
+        const locations = this.form.value.selectedLocations!;
+
+        const queries = locations.map(({ lat, lon }) =>
+            this.weatherService.getAirPolutionData(lat, lon)
         );
 
         forkJoin(queries).subscribe((data) => {
             this.dataService.setData(data);
+
+            localStorage.setItem(
+                this.LOCAL_STORAGE_KEY,
+                JSON.stringify(locations)
+            );
         });
     }
 }
