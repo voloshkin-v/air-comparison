@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {
@@ -7,12 +7,13 @@ import {
     FormsModule,
     Validators,
 } from '@angular/forms';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { WeatherService } from '../../services/weather.service';
 import { Geocoding } from '../../interfaces/geocoding.interface';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { DataService } from '../../services/data.service';
+import { forkJoin } from 'rxjs';
 
 interface AutocompleteEvent {
     originalEvent: Event;
@@ -32,7 +33,6 @@ interface Location {
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        NgIf,
         ButtonModule,
         AutoCompleteModule,
         SelectButtonModule,
@@ -42,6 +42,7 @@ interface Location {
 })
 export class LocationFormComponent {
     weatherService = inject(WeatherService);
+    dataService = inject(DataService);
 
     locations: Geocoding[] = [];
     form = new FormGroup({
@@ -65,6 +66,12 @@ export class LocationFormComponent {
     }
 
     onSubmit() {
-        console.log('Submit!', this.form.value);
+        const queries = this.form.value.selectedLocations!.map((location) =>
+            this.weatherService.getAirPolutionData(location.lat, location.lon)
+        );
+
+        forkJoin(queries).subscribe((data) => {
+            this.dataService.setData(data);
+        });
     }
 }
