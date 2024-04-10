@@ -1,0 +1,47 @@
+<article class="rounded-lg bg-[#64748b] text-white">
+    <h3
+        class="text-center px-4 py-2 border-b border-white font-bold tracking-wider"
+    >
+        {{ location.name }}
+    </h3>
+
+    <ul class="p-4">
+        <li class="flex items-center justify-between">
+            <span>Air Quality Index:</span>
+            <span>{{ location.aqi }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>CO:</span>
+            <span>{{ location.co }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>NO:</span>
+            <span>{{ location.no }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>NO<sub>2</sub>:</span>
+            <span>{{ location.no2 }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>O<sub>3</sub></span>
+            <span>{{ location.o3 }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>SO<sub>2</sub></span>
+            <span>{{ location.so2 }}</span>
+        </li>
+
+        <li class="flex items-center justify-between">
+            <span>PM<sub>2.5</sub></span>
+            <span>{{ location.pm2_5 }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>PM<sub>10</sub></span>
+            <span>{{ location.pm10 }}</span>
+        </li>
+        <li class="flex items-center justify-between">
+            <span>NH<sub>3</sub></span>
+            <span>{{ location.nh3 }}</span>
+        </li>
+    </ul>
+</article>

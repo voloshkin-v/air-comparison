@@ -41,6 +41,8 @@ export class LocationFormComponent implements OnInit {
     dataService = inject(DataService);
 
     locations: Geocoding[] = [];
+    isSubmitted = false;
+    errorMessage = '';
     form = new FormGroup({
         selectedLocations: new FormControl<Geocoding[]>(
             [],
@@ -57,8 +59,10 @@ export class LocationFormComponent implements OnInit {
 
     ngOnInit() {
         this.selectedLocations?.valueChanges.subscribe((data) => {
+            this.isSubmitted = false;
+
             if (!data?.length) {
-                localStorage.removeItem(this.LOCAL_STORAGE_KEY);
+                this.resetFormValues();
             }
         });
 
@@ -75,25 +79,32 @@ export class LocationFormComponent implements OnInit {
     }
 
     onSearch(event: AutocompleteEvent) {
-        this.weatherService.getGeocoding(event.query).subscribe((data) => {
-            this.locations = data;
-        });
+        this.weatherService.getGeocoding(event.query).subscribe(
+            (data) => {
+                this.locations = data;
+            },
+            (e) => {
+                this.errorMessage = 'Could not fetch the data';
+            }
+        );
     }
 
     onSubmit() {
+        this.isSubmitted = true;
         this.fetchPolutionData();
     }
 
-    onReset() {
-        this.form.reset();
-        this.dataService.setData([]);
+    onReset(e: Event) {
+        e.preventDefault();
+
+        this.resetFormValues();
     }
 
     fetchPolutionData() {
         const locations = this.form.value.selectedLocations!;
 
-        const queries = locations.map(({ lat, lon }) =>
-            this.weatherService.getAirPolutionData(lat, lon)
+        const queries = locations.map(({ lat, lon, name }) =>
+            this.weatherService.getAirPolutionData(lat, lon, name)
         );
 
         forkJoin(queries).subscribe((data) => {
@@ -104,5 +115,11 @@ export class LocationFormComponent implements OnInit {
                 JSON.stringify(locations)
             );
         });
+    }
+
+    resetFormValues() {
+        this.form.reset();
+        localStorage.removeItem(this.LOCAL_STORAGE_KEY);
+        this.dataService.setData([]);
     }
 }

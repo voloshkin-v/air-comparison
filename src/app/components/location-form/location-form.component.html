@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (reset)="onReset($event)" (ngSubmit)="onSubmit()">
     <div class="space-y-2">
         <p-autoComplete
             [suggestions]="locations"
@@ -26,6 +26,11 @@
                 (selectedLocations?.dirty || selectedLocations?.touched)
             "
         >
+            <div *ngIf="errorMessage" class="flex items-center gap-1">
+                <i class="pi pi-exclamation-circle text-rose-400"></i>
+                {{ errorMessage }}
+            </div>
+
             <div
                 *ngIf="selectedLocations?.errors?.['required']"
                 class="flex items-center gap-1"
@@ -58,7 +63,7 @@
 
     <div class="mt-4 flex flex-col gap-4">
         <p-button
-            [disabled]="!form.valid || !form.dirty"
+            [disabled]="!form.valid || !form.dirty || isSubmitted"
             type="submit"
             class="p-fluid"
             label="Compare"
@@ -67,10 +72,10 @@
 
         <p-button
             *ngIf="selectedLocations?.value?.length"
+            type="reset"
             label="Reset"
             severity="secondary"
             class="p-fluid"
-            (onClick)="onReset()"
         >
         </p-button>
     </div>
