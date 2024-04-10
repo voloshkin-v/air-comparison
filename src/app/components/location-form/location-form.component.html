@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
+    <div class="space-y-2">
         <p-autoComplete
             [suggestions]="locations"
             (completeMethod)="onSearch($event)"
@@ -8,9 +8,9 @@
             [multiple]="true"
             formControlName="selectedLocations"
             field="name"
-            name="locations"
-            placeholder="Choose several locations..."
             required
+            class="p-fluid"
+            styleClass="locations-input"
         >
             <ng-template let-location pTemplate="item">
                 <div>
@@ -19,7 +19,49 @@
                 </div>
             </ng-template>
         </p-autoComplete>
+
+        <div
+            *ngIf="
+                selectedLocations?.invalid &&
+                (selectedLocations?.dirty || selectedLocations?.touched)
+            "
+        >
+            <div
+                *ngIf="selectedLocations?.errors?.['required']"
+                class="flex items-center gap-1"
+            >
+                <i class="pi pi-exclamation-circle text-rose-400"></i>
+                The field is required
+            </div>
+
+            <div
+                *ngIf="selectedLocations?.errors?.['minlength']"
+                class="flex items-center gap-1"
+            >
+                <i class="pi pi-exclamation-circle text-rose-400"></i>
+                Please, select at least
+                {{ selectedLocations?.errors?.['minlength']?.requiredLength }}
+                locations
+            </div>
+
+            <div
+                *ngIf="selectedLocations?.errors?.['maxlength']"
+                class="flex items-center gap-1"
+            >
+                <i class="pi pi-exclamation-circle text-rose-400"></i>
+                Please, select no more than
+                {{ selectedLocations?.errors?.['maxlength']?.requiredLength }}
+                locations
+            </div>
+        </div>
     </div>
 
-    <p-button [disabled]="!form.valid" type="submit" label="Submit"></p-button>
+    <div class="mt-4">
+        <p-button
+            [disabled]="!form.valid"
+            type="submit"
+            class="p-fluid"
+            label="Submit"
+        ></p-button>
+    </div>
 </form>

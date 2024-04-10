@@ -1,0 +1,7 @@
+:host ::ng-deep {
+    .ng-dirty.ng-invalid {
+        .locations-input.p-autocomplete .p-inputtext {
+            @apply border-rose-400;
+        }
+    }
+}

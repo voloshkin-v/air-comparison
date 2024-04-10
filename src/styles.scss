@@ -1,2 +1,21 @@
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+}
+
+@layer base {
+    html,
+    body {
+        @apply h-full;
+    }
+
+    h1 {
+        @apply scroll-m-20 text-3xl font-extrabold tracking-tight lg:text-5xl;
+    }
+}

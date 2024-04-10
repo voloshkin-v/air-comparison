@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import {
@@ -12,6 +12,7 @@ import { WeatherService } from '../../services/weather.service';
 import { Geocoding } from '../../interfaces/geocoding.interface';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface AutocompleteEvent {
     originalEvent: Event;
@@ -41,8 +42,8 @@ interface Location {
 })
 export class LocationFormComponent {
     weatherService = inject(WeatherService);
-    locations: Geocoding[] = [];
 
+    locations: Geocoding[] = [];
     form = new FormGroup({
         selectedLocations: new FormControl<Geocoding[]>(
             [],
@@ -53,7 +54,6 @@ export class LocationFormComponent {
             ]
         ),
     });
-
     get selectedLocations() {
         return this.form.get('selectedLocations');
     }
@@ -65,7 +65,6 @@ export class LocationFormComponent {
     }
 
     onSubmit() {
-        console.log(this.form.value.selectedLocations);
-        console.log('Submit!');
+        console.log('Submit!', this.form.value);
     }
 }
