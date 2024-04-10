@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+        <p-autoComplete
+            [suggestions]="locations"
+            (completeMethod)="onSearch($event)"
+            [delay]="500"
+            [minLength]="2"
+            [multiple]="true"
+            formControlName="selectedLocations"
+            field="name"
+            name="locations"
+            placeholder="Choose several locations..."
+            required
+        >
+            <ng-template let-location pTemplate="item">
+                <div>
+                    <span>{{ location.name }}, {{ location.country }}</span>
+                    <span *ngIf="location.state"> ({{ location.state }})</span>
+                </div>
+            </ng-template>
+        </p-autoComplete>
+    </div>
+
+    <p-button [disabled]="!form.valid" type="submit" label="Submit"></p-button>
+</form>

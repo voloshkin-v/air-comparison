@@ -1,21 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { WeatherService } from './services/weather.service';
-import { environment } from './../environments/environment';
+import { LocationFormComponent } from './components/location-form/location-form.component';
 
 @Component({
     selector: 'app-root',
     standalone: true,
-    imports: [RouterOutlet],
+    imports: [RouterOutlet, LocationFormComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-    private weatherService = inject(WeatherService);
-
-    ngOnInit() {
-        this.weatherService
-            .getGeocoding('London')
-            .subscribe((data) => console.log(data));
-    }
-}
+export class AppComponent {}
