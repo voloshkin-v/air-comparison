@@ -17,7 +17,7 @@ export class WeatherService {
         );
     }
 
-    getAirPolutionData(lat: number, lon: number, name: string) {
+    getAirPolution(lat: number, lon: number, name: string) {
         return this.http
             .get<AirPolution>(
                 `${environment.apiBaseUrl}/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${environment.apiKey}`

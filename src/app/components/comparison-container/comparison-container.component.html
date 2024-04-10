@@ -1,4 +1,4 @@
-<div *ngIf="data.length" class="flex gap-5">
+<div *ngIf="data.length" class="flex gap-5 flex-col lg:flex-row">
     <location-card
         *ngFor="let location of data"
         [location]="location"
