@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { LocationCardComponent } from './location-card/location-card.component';
 import { AirPolutionData } from '../../interfaces/airPolutionData.interface';
 import { SortGroupComponent } from './sort-group/sort-group.component';
+import { SortOption } from '../../interfaces/sortOption.interface';
 
 @Component({
     selector: 'comparison-container',
@@ -16,6 +17,8 @@ export class ComparisonContainerComponent implements OnDestroy {
     dataService = inject(DataService);
     data: AirPolutionData[] = [];
 
+    sortOption = '';
+
     subscription = this.dataService.comparisonData$.subscribe((data) => {
         this.data = data;
     });
@@ -24,7 +27,20 @@ export class ComparisonContainerComponent implements OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    onFilter() {
-        console.log(this.data);
+    onSort(option: SortOption) {
+        this.sortOption = option.key;
+
+        const sortObj = {
+            asc: (a: AirPolutionData, b: AirPolutionData) =>
+                a[option.key] - b[option.key],
+            desc: (a: AirPolutionData, b: AirPolutionData) =>
+                b[option.key] - a[option.key],
+        };
+
+        const sorted = this.data
+            .slice()
+            .sort((a, b) => sortObj[option.order](a, b));
+
+        this.data = sorted;
     }
 }

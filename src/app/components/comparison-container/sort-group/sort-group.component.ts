@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
+import { SortOption } from '../../../interfaces/sortOption.interface';
 
-interface Option {
-    label: string;
-    order: 'asc' | 'desc';
+interface DropdownChangeEvent {
+    originalEvent: Event;
+    value: SortOption;
 }
 
 @Component({
@@ -16,13 +17,21 @@ interface Option {
     styleUrl: './sort-group.component.scss',
 })
 export class SortGroupComponent {
-    options: Option[] | undefined;
-    selectedOption: Option | undefined;
+    options!: SortOption[];
+    selectedOption?: SortOption;
+
+    @Output() selected = new EventEmitter();
 
     ngOnInit() {
         this.options = [
-            { label: 'Air Quality Index', order: 'asc' },
-            { label: 'Air Quality Index', order: 'desc' },
+            { label: 'Air Quality Index', order: 'asc', key: 'aqi' },
+            { label: 'Air Quality Index', order: 'desc', key: 'aqi' },
+            { label: 'CO', order: 'asc', key: 'co' },
+            { label: 'CO', order: 'desc', key: 'co' },
         ];
+    }
+
+    onSortingChange(event: DropdownChangeEvent) {
+        this.selected.emit(event.value);
     }
 }

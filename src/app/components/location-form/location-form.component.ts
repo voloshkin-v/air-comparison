@@ -123,4 +123,8 @@ export class LocationFormComponent implements OnInit {
         localStorage.removeItem(this.LOCAL_STORAGE_KEY);
         this.dataService.setData([]);
     }
+    
+    navigateTo(fragment: any) {
+        
+    }
 }
