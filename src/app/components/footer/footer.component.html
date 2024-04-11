@@ -1,0 +1,13 @@
+<footer class="bg-black p-4 flex justify-center">
+    <ul class="flex gap-4 items-center">
+        <li *ngFor="let item of social">
+            <a
+                [href]="item.href"
+                target="_blank"
+                class="hover:-translate-y-[1px] inline-block transition-transform"
+            >
+                <span [class]="item.iconClass"></span>
+            </a>
+        </li>
+    </ul>
+</footer>
