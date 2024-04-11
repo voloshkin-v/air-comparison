@@ -1,7 +1,12 @@
 <article class="rounded-lg bg-[#64748b] text-white">
     <h3
-        class="text-center px-4 py-2 border-b border-white font-bold tracking-wider"
+        class="px-4 py-2 border-b border-white font-bold tracking-wider flex justify-center items-center gap-2"
     >
+        <img
+            class="w-5 h-5"
+            [src]="'https://flagsapi.com/' + location.country + '/flat/64.png'"
+        />
+
         {{ location.name }}
     </h3>
 

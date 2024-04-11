@@ -1,5 +1,6 @@
 export interface AirPolutionData {
     name: string;
+    country: string;
     aqi: number;
     co: number;
     no: number;

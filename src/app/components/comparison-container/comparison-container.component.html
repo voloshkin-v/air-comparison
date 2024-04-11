@@ -1,9 +1,9 @@
 <div *ngIf="data.length" class="space-y-4">
-    <div class="flex justify-end">
+    <div class="flex justify-center">
         <sort-group></sort-group>
     </div>
 
-    <div class="flex gap-5 flex-col lg:flex-row">
+    <div class="flex flex-col gap-4 lg:gap-0 lg:flex-row -mx-2 justify-center">
         <location-card
             *ngFor="let location of data"
             [location]="location"

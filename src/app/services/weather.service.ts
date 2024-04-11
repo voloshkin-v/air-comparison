@@ -17,21 +17,26 @@ export class WeatherService {
         );
     }
 
-    getAirPolution(lat: number, lon: number, name: string) {
+    getAirPolution(lat: number, lon: number, name: string, country: string) {
         return this.http
             .get<AirPolution>(
                 `${environment.apiBaseUrl}/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${environment.apiKey}`
             )
             .pipe(
                 map((response) =>
-                    this.processAirPolutionResponse(response, name)
+                    this.processAirPolutionResponse(response, name, country)
                 )
             );
     }
 
-    private processAirPolutionResponse(response: AirPolution, name: string) {
+    private processAirPolutionResponse(
+        response: AirPolution,
+        name: string,
+        country: string
+    ) {
         return {
             name,
+            country,
             aqi: response.list[0].main.aqi,
             co: response.list[0].components.co,
             no: response.list[0].components.no,

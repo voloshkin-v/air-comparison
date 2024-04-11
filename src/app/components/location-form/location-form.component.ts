@@ -104,8 +104,8 @@ export class LocationFormComponent implements OnInit {
     fetchPolutionData() {
         const locations = this.form.value.selectedLocations!;
 
-        const queries = locations.map(({ lat, lon, name }) =>
-            this.weatherService.getAirPolution(lat, lon, name)
+        const queries = locations.map(({ lat, lon, name, country }) =>
+            this.weatherService.getAirPolution(lat, lon, name, country)
         );
 
         forkJoin(queries).subscribe((data) => {
