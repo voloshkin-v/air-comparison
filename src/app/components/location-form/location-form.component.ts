@@ -41,6 +41,7 @@ export class LocationFormComponent implements OnInit {
     dataService = inject(DataService);
 
     locations: Geocoding[] = [];
+    
     isSubmitted = false;
     errorMessage = '';
     form = new FormGroup({

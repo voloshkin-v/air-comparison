@@ -1,6 +1,12 @@
-<div *ngIf="data.length" class="flex gap-5 flex-col lg:flex-row">
-    <location-card
-        *ngFor="let location of data"
-        [location]="location"
-    ></location-card>
+<div *ngIf="data.length" class="space-y-4">
+    <div class="flex justify-end">
+        <sort-group></sort-group>
+    </div>
+
+    <div class="flex gap-5 flex-col lg:flex-row">
+        <location-card
+            *ngFor="let location of data"
+            [location]="location"
+        ></location-card>
+    </div>
 </div>

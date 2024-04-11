@@ -1,0 +1,22 @@
+<p-dropdown
+    [options]="options"
+    [(ngModel)]="selectedOption"
+    optionLabel="label"
+    placeholder="Sort by"
+>
+    <ng-template let-option pTemplate="item">
+        <div class="flex items-center gap-1">
+            {{ option.label }}
+
+            <span
+                *ngIf="option.order === 'asc'"
+                class="pi pi-angle-double-up"
+            ></span>
+
+            <span
+                *ngIf="option.order === 'desc'"
+                class="pi pi-angle-double-down"
+            ></span>
+        </div>
+    </ng-template>
+</p-dropdown>

@@ -4,4 +4,8 @@
             @apply border-rose-400;
         }
     }
+
+    .p-autocomplete-token-icon {
+        @apply transition-all hover:text-[#64748b];
+    }
 }
